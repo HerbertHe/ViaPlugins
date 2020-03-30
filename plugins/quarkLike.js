@@ -32,4 +32,10 @@
         '<input id="herb-inner-search-box" type="text" placeholder="搜点什么吧..." style="height: 30px; width: 70%; border-radius: 15px; background-color: #d1d8e0; padding-left: 10px; padding-right: 10px; border: none; outline: none;"/>' +
         '<button id="herb-search-btn" style="border: none; outline: none; background-color: white;">搜索</button>'
     document.getElementsByTagName("body")[0].insertBefore(herbSearchBox, document.getElementById("content"));
+    document.getElementById("herb-inner-search-box").value = decodeURIComponent(/^\?q=([\w%]+)/.exec(location.search)[1]);
+    /* 搜索事件监听 */
+    document.getElementById("herb-search-btn").addEventListener("click", function() {
+        if (document.getElementById("herb-inner-search-box").value.length === 0) return;
+        location.href = "https://quark.sm.cn/s?q=" + encodeURIComponent(document.getElementById("herb-inner-search-box").value);
+    });
 })()
