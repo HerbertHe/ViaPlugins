@@ -1,4 +1,4 @@
-/**
+/*
  * @name: QuarkLike
  * @Author: HerbertHe
  * @version: 1.0
@@ -38,4 +38,4 @@
         if (document.getElementById("herb-inner-search-box").value.length === 0) return;
         location.href = "https://quark.sm.cn/s?q=" + encodeURIComponent(document.getElementById("herb-inner-search-box").value);
     });
-})()
+})();
