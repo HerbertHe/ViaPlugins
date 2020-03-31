@@ -1,7 +1,7 @@
 /*
  * @name: QuarkLike
  * @Author: HerbertHe
- * @version: 1.1
+ * @version: 1.3
  * @description: 便于更好使用夸克搜索的Via浏览器插件
  * @include: *
  * @createTime: 2020-03-30 22:34:00
@@ -11,18 +11,22 @@
 (function() {
     var whiteList = ["quark.sm.cn"];
 
-    if (whiteList.indexOf(window.location.hostname) < 0) {
-        return;
+    if (whiteList.indexOf(window.location.hostname) >= 0) {
+        /* 修改使之匹配不同网站，在quark页面的情况下 */
+        /* 干掉头节点 */
+        document.getElementById("header").remove();
     }
     var quarkLike = encodeURIComponent("HerbertHe:QuarkLike:load");
     if (window[quarkLike]) {
         return;
     }
     window[quarkLike] = true;
-    /* 干掉头节点 */
-    document.getElementById("header").remove();
     /* 样式调整 */
-    document.getElementById("sider").style = "margin-bottom: 60px;";
+    /* document.getElementById("sider").style = "margin-bottom: 60px;"; */
+    document
+        .getElementsByTagName("body")[0]
+        .getElementsByTagName("div")[0].lastChild.style =
+        "margin-bottom: 60px;";
     /* 新增DOM节点 */
     var herbSearchBox = document.createElement("div");
     herbSearchBox.id = "herb-search-box";
@@ -46,13 +50,19 @@
     document.getElementById("herb-box-input").style = "display: none;";
     document.getElementById("herb-box-display").style =
         "width: 100%; height: 100%;" + commonFlex;
-    /* 初始值 */
-    document.getElementById("herb-shower-box").innerText = decodeURIComponent(
-        /^\?q=([\w%]+)/.exec(location.search)[1]
-    );
-    document.getElementById("herb-inner-search-box").value = decodeURIComponent(
-        /^\?q=([\w%]+)/.exec(location.search)[1]
-    );
+    /* 初始值，存在null的问题 */
+    var defaultTitle =
+        /^\?q=([\w%]+)/.exec(location.search)[1] === null
+            ? "null"
+            : /^\?q=([\w%]+)/.exec(location.search)[1];
+    document.getElementById("herb-shower-box").innerText =
+        defaultTitle === "null"
+            ? document.title
+            : decodeURIComponent(defaultTitle === "null" ? "" : defaultTitle);
+    document.getElementById("herb-inner-search-box").value =
+        defaultTitle === "null"
+            ? location.href
+            : decodeURIComponent(defaultTitle === "null" ? "" : defaultTitle);
     /* 展示盒子点击事件监听 */
     document
         .getElementById("herb-shower-box")
