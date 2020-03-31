@@ -15,7 +15,7 @@
         return;
     }
     var quarkLike = encodeURIComponent("HerbertHe:QuarkLike:load");
-    if (window[key]) {
+    if (window[quarkLike]) {
         return;
     }
     window[quarkLike] = true;
